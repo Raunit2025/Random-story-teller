@@ -1,4 +1,4 @@
-# OFFLINE AI STORY & JOKE GENERATOR (No API)
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 import threading
@@ -6,10 +6,9 @@ import time
 import pygame
 import random
 
-# --- CONFIGURATION ---
-MUSIC_FILE = "background.mp3"  # Place this file in the same directory
 
-# --- Offline Data ---
+MUSIC_FILE = "background.mp3" 
+
 
 story_data = {
     "Adventure": [
@@ -73,7 +72,6 @@ joke_data = {
     ]
 }
 
-# --- Music ---
 def play_music():
     try:
         pygame.mixer.init()
@@ -82,7 +80,6 @@ def play_music():
     except:
         print("⚠️ Background music failed to load.")
 
-# --- Typing Animation ---
 def type_text(text_widget, text, delay=30):
     text_widget.config(state='normal')
     text_widget.delete("1.0", tk.END)
@@ -92,7 +89,7 @@ def type_text(text_widget, text, delay=30):
         time.sleep(delay / 1000.0)
     text_widget.config(state='disabled')
 
-# --- Story Logic ---
+
 def start_story():
     genre = genre_var.get()
     if genre == "None":
@@ -116,7 +113,6 @@ def continue_story(choice):
     for widget in choice_frame.winfo_children():
         widget.destroy()
 
-# --- Joke Logic ---
 def generate_joke():
     category = joke_var.get()
     if category == "None":
@@ -125,7 +121,6 @@ def generate_joke():
     joke = random.choice(joke_data[category])
     threading.Thread(target=lambda: type_text(joke_box, joke, delay=40)).start()
 
-# --- GUI Setup ---
 app = tk.Tk()
 app.title("Offline AI Story & Joke Generator")
 app.geometry("800x600")
@@ -137,7 +132,6 @@ current_story = {}
 notebook = ttk.Notebook(app)
 notebook.pack(pady=10, expand=True)
 
-# --- Story Tab ---
 story_tab = tk.Frame(notebook, bg="#ffffff")
 notebook.add(story_tab, text="📖 Story Generator")
 
@@ -153,7 +147,6 @@ story_box.pack(padx=10, pady=10)
 choice_frame = tk.Frame(story_tab, bg="#ffffff")
 choice_frame.pack(pady=5)
 
-# --- Joke Tab ---
 joke_tab = tk.Frame(notebook, bg="#ffffff")
 notebook.add(joke_tab, text="🤣 Joke Generator")
 
@@ -166,7 +159,6 @@ tk.Button(joke_tab, text="Tell Me a Joke", command=generate_joke, bg="#2196F3", 
 joke_box = tk.Text(joke_tab, wrap="word", height=10, width=90, state="disabled", font=("Arial", 11))
 joke_box.pack(padx=10, pady=10)
 
-# --- Start background music ---
 threading.Thread(target=play_music, daemon=True).start()
 
 app.mainloop()
